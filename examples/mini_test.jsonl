@@ -1,0 +1,3 @@
+{"id":"sample_001","messages":[{"role":"user","content":[{"type":"audio","path":"examples/audio/sample_001.wav"},{"type":"text","text":"Translate the speech into Simplified Chinese."}]},{"role":"assistant","content":[{"type":"text","text":"北京大学位于北京。"}]}]}
+{"id":"sample_002","messages":[{"role":"user","content":[{"type":"audio","path":"examples/audio/sample_002.wav"},{"type":"text","text":"Translate the speech into Simplified Chinese."}]},{"role":"assistant","content":[{"type":"text","text":"艾达尔在比什凯克参加会议。"}]}]}
+
