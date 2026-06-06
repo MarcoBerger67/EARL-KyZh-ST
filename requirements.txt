@@ -1,0 +1,13 @@
+accelerate>=0.30.0
+hanlp>=2.1.0b50
+librosa>=0.10.0
+numpy>=1.24.0
+peft>=0.11.0
+pyyaml>=6.0
+sacrebleu>=2.4.0
+sentencepiece>=0.2.0
+soundfile>=0.12.1
+tqdm>=4.66.0
+transformers>=4.51.0
+torch>=2.3.0
+

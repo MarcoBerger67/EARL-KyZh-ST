@@ -1,0 +1,34 @@
+﻿dataset:
+  path: data/converted_testt_format/testt.jsonl
+  format: converted_translation_jsonl
+
+model:
+  kind: whisper_nllb_cascade
+  name: whisper-nllb-cascade
+  base_model_path: model/whisper-large-v3
+  batch_size: 4
+  max_new_tokens: 256
+  torch_dtype: float16
+  device_map: none
+  device: cuda:0
+  whisper_task: transcribe
+  whisper_language: ky
+  nllb_source_lang: kir_Cyrl
+  nllb_target_lang: zho_Hans
+  nllb_model_path: model/nllb-200-distilled-600M
+
+evaluation:
+  mode: generate_and_score
+  output_dir: eval_outputs/eval_suite/whisper_nllb_testt
+  metrics: [bleu, chrf, entity_f1, entity_soft]
+  entity_soft_tau: 0.6
+  progress_every: 20
+
+ner:
+  tokenizer_model: FINE_ELECTRA_SMALL_ZH
+  ner_model: MSRA_NER_ELECTRA_SMALL_ZH
+
+embedding:
+  model_name: model/bert-base-multilingual-cased
+  max_length: 128
+  pooling: mean

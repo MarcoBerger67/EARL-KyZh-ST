@@ -1,0 +1,11 @@
+experiment_name: stkg_stage1_bleu_only
+phase: Stage I
+mode: train
+weights:
+  bleu: 1.0
+  chrf: 0.0
+  key: 0.0
+  ce: 0.0
+entity:
+  entity_reward_mode: none
+

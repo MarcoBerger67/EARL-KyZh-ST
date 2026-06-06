@@ -1,0 +1,18 @@
+dataset:
+  path: examples/mini_test.jsonl
+  format: converted_translation_jsonl
+  reference_entity_path: examples/mini_test.ner.jsonl
+
+model:
+  kind: offline_predictions
+  name: offline-mini
+
+evaluation:
+  mode: score_predictions
+  prediction_path: examples/mini_predictions.jsonl
+  output_dir: outputs/offline_mini
+  prediction_id_field: id
+  prediction_text_field: prediction_text
+  metrics: [bleu, chrf, entity_key_recall]
+  entity_lcs_skip_labels: []
+  progress_every: 1

@@ -1,0 +1,35 @@
+dataset:
+  path: data/dev.jsonl
+  format: converted_translation_jsonl
+  reference_entity_path: data/dev.ner.jsonl
+  audio_prefix_from: ""
+  audio_prefix_to: ""
+
+model:
+  kind: gemma4_audio_lora
+  name: gemma4-e2b-grpo-stage3
+  base_model_path: ${MODEL_ROOT}/gemma-4-e2b-it
+  adapter_path: ${OUT_ROOT}/grpo/grpo_stage3_evalfilter_bleu_chrf/adapter_best
+  batch_size: 1
+  max_new_tokens: 64
+  torch_dtype: bfloat16
+  device_map: none
+  device: cuda:0
+  prompt_mode: dataset
+
+evaluation:
+  mode: generate_and_score
+  output_dir: outputs/eval_suite/gemma4_e2b_grpo_stage3_val
+  metrics: [bleu, chrf, entity_key_recall]
+  entity_lcs_skip_labels: []
+  progress_every: 20
+
+ner:
+  tokenizer_model: FINE_ELECTRA_SMALL_ZH
+  ner_model: MSRA_NER_ELECTRA_SMALL_ZH
+
+embedding:
+  model_name: bert-base-multilingual-cased
+  max_length: 128
+  pooling: mean
+

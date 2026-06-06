@@ -1,0 +1,26 @@
+﻿dataset:
+  path: data/converted_testt_format/testt.jsonl
+  format: converted_translation_jsonl
+
+model:
+  kind: offline_predictions
+  name: offline-predictions
+
+evaluation:
+  mode: score_predictions
+  prediction_path: scripts/testt_predictions.run1.jsonl
+  output_dir: eval_outputs/eval_suite/offline_testt
+  prediction_id_field: id
+  prediction_text_field: prediction
+  metrics: [bleu, chrf, entity_f1, entity_soft]
+  entity_soft_tau: 0.6
+  progress_every: 50
+
+ner:
+  tokenizer_model: FINE_ELECTRA_SMALL_ZH
+  ner_model: MSRA_NER_ELECTRA_SMALL_ZH
+
+embedding:
+  model_name: model/bert-base-multilingual-cased
+  max_length: 128
+  pooling: mean

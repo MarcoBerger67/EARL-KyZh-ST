@@ -1,0 +1,8 @@
+experiment_name: grpo_bleu_only
+phase: GRPO
+mode: train
+weights:
+  bleu: 1.0
+  chrf: 0.0
+  key: 0.0
+  ce: 0.0

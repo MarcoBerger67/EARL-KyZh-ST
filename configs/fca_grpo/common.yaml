@@ -1,0 +1,100 @@
+runtime:
+  output_root: model/grpo
+  sft_output_root: model/sft
+  base_model_path: model/gemma-4-e2b-it
+
+data:
+  train_data_path: data/converted_testt_format/train_ky2zh_full285h_stage3.cleaned.jsonl
+  sft_train_data_path: data/converted_testt_format/train_ky2zh_full285h_stage3.cleaned.jsonl
+  grpo_train_data_path: data/converted_testt_format/train_ky2zh_full285h_stage3.cleaned.final.evalfilter.jsonl
+  train_entity_path: data/converted_testt_format/train_ky2zh_full285h_stage3.cleaned.final.ner.jsonl
+  val_data_path: data/converted_testt_format/val_ky2zh_full285h.jsonl
+  val_entity_path:
+  test_data_path: data/converted_testt_format/testt.jsonl
+  test_entity_path:
+  audio_prefix_from:
+  audio_prefix_to:
+
+grpo:
+  # Runtime fallback objective used when --grpo-objective is not supplied.
+  # For paper-style reproduction, choose group_relative_risk_kl or clipped_grpo explicitly.
+  # Both are KL-regularized group-relative objectives.
+  grpo_objective: group_relative_risk_kl
+  group_policy_scale: 0.1
+  per_device_train_batch_size: 3
+  eval_batch_size: 2
+  gradient_accumulation_steps: 4
+  learning_rate: 5.0e-7
+  num_train_epochs: 1
+  num_candidates: 4
+  temperature: 1.0
+  top_k: 50
+  top_p: 0.9
+  max_new_tokens: 64
+  val_max_new_tokens: 24
+  clip_range: 0.2
+  kl_coef: 0.02
+  score_batch_size: 2
+  mixed_precision: bf16
+  gradient_checkpointing: true
+  load_in_4bit: false
+  load_in_8bit: false
+  torchao_int8_weight_only: false
+  bnb_4bit_quant_type: nf4
+  bnb_4bit_compute_dtype: bfloat16
+  bnb_4bit_use_double_quant: true
+  warmup_ratio: 0.03
+  weight_decay: 0.0
+  eval_every_steps: 100
+  log_every_steps: 10
+  seed: 42
+  torch_dtype: bfloat16
+  attn_implementation:
+  enable_tensorboard: true
+  use_deepspeed_zero2: true
+  use_deepspeed_zero3: false
+  zero3_init_flag: false
+  zero3_save_16bit_model: false
+  sampling_rate: 16000
+  key_match_mode: normalized_exact
+  entity_reward_mode: entity_substring
+  entity_include_per: true  # include PER in the entity reward; set false to exclude
+  entity_soft_tau: 0.6
+  entity_embedding_model: bert-base-multilingual-cased
+  entity_embedding_max_length: 128
+  entity_embedding_pooling: mean
+  ner_tokenizer_model: FINE_ELECTRA_SMALL_ZH
+  ner_model: MSRA_NER_ELECTRA_SMALL_ZH
+  ner_tokenizer_path:
+  ner_path:
+  disable_kl_monitor: false
+  lora_r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  lora_target_modules: q_proj,k_proj,v_proj,o_proj,up_proj,down_proj,gate_proj
+
+sft:
+  experiment_name: sft_gemma4_e2b_lora_stage3
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 4
+  num_train_epochs: 1
+  learning_rate: 2.0e-4
+  mixed_precision: bf16
+  load_in_4bit: false
+  gradient_checkpointing: true
+  enable_tensorboard: true
+  optim: paged_adamw_8bit
+  seed: 42
+  save_steps: 200
+  eval_steps: 200
+  logging_steps: 10
+  save_total_limit: 2
+  metric_max_new_tokens: 256
+  torch_dtype: bfloat16
+  attn_implementation:
+  device_map: auto
+  lora_r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  lora_target_modules: q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj
